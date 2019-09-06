@@ -6,10 +6,11 @@ export type StepData = any;
 
 export interface StepConfig {
   title: string;
-  children: React.ReactChild;
+  children?: React.ReactChild;
   description?: string;
   loading?: boolean;
   disabled?: boolean;
+    skipped?: boolean;
   data?: StepData;
   className?: string;
   index?: number;
@@ -19,5 +20,6 @@ export interface StepState extends StepConfig {
   stepId: StepId;
   error?: StepError;
   completed?: boolean;
+    skipped?: boolean;
   loading: boolean;
 }

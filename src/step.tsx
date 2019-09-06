@@ -7,6 +7,7 @@ interface Props extends StepConfig {
   data?: any;
   loading?: boolean;
   disabled?: boolean;
+  skipped?: boolean;
 }
 
 const Step: React.FunctionComponent<Props> = ({ stepId, ...props }) => {
@@ -20,6 +21,7 @@ const Step: React.FunctionComponent<Props> = ({ stepId, ...props }) => {
 
   React.useEffect(() => {
     updateStep(stepId, {
+        ...props,
       loading: props.loading
     });
   }, [props.loading]);

@@ -1,5 +1,5 @@
 {
-  "name": "react-material-stepper",
+  "name": "@teneo/react-material-stepper",
   "version": "1.0.0",
   "description": "React stepper component",
   "main": "dist/react-stepper.js",
@@ -7,13 +7,13 @@
   "scripts": {
     "build": "tsc && webpack",
     "prettier": "prettier --write src/**/*",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "start": "webpack-dev-server --open --hot --mode development"
   },
-  "author": "Artem Puchenkin <apuchenkin@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/apuchenkin/react-stepper.git"
+    "url": "git+https://github.com/TeneoMedia/react-stepper.git"
   },
   "keywords": [
     "stepper",
@@ -22,9 +22,15 @@
     "typescript"
   ],
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.6.0",
     "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
     "css-loader": "^3.0.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
@@ -38,7 +44,8 @@
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.2",
     "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
     "@material/button": "^3.0.0",

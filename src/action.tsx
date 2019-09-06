@@ -9,11 +9,13 @@ type Align = "left" | "right";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   raised?: boolean;
+    skipped?: boolean;
   align?: Align;
 }
 
 const StepperAction: React.FunctionComponent<Props> = ({
   disabled = false,
+  skipped = false,
   raised = false,
   type,
   align = ALIGN_LEFT,
@@ -27,7 +29,7 @@ const StepperAction: React.FunctionComponent<Props> = ({
     <button
       {...props}
       type={type}
-      disabled={isLoading() || disabled}
+      disabled={isLoading() || disabled || skipped}
       className={classnames("mdc-button", "stepper__action", className, {
         "mdc-button--raised": raised,
         "mdc-button--unelevated": type === "submit",

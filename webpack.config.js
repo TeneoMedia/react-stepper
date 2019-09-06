@@ -1,14 +1,20 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
-  mode: 'development',
-
+  mode: 'production',
+  //entry: './public/index.js',
   entry: {
     'react-stepper': "./src/index.tsx",
     'react-stepper.min': "./src/index.tsx",
+  },
+  devServer: {
+    port: process.env.PORT || 8080,
+    //contentBase: './public',
   },
 
   output: {
@@ -26,8 +32,21 @@ module.exports = {
 
   module: {
       rules: [
-          { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-          { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+        { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+        {
+          test: /\.jsx?$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', "@babel/preset-react"],
+              plugins: ['@babel/plugin-proposal-object-rest-spread']
+            }
+          }
+        },
+
+
+          //{ enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
           {
             test: /\.scss$/,
             use: [
@@ -58,6 +77,14 @@ module.exports = {
             test: /\.svg$/,
             loader: 'svg-inline-loader'
           },
+        {
+          test: /\.html$/,
+          use: [
+            {
+              loader: "html-loader"
+            }
+          ]
+        }
       ]
   },
 
@@ -65,6 +92,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'react-stepper.css'
     }),
+  new HtmlWebPackPlugin({
+    template: "./public/index.html",
+    filename: "./index.html"
+  })
+
   ],
 
   optimization: {

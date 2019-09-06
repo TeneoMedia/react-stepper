@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "./lib/",
     "sourceMap": true,
+//    "useBabel": true,
     "declaration": true,
     "noImplicitAny": true,
     "esModuleInterop": true,

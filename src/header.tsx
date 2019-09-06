@@ -2,6 +2,7 @@ import classnames from "classnames";
 import * as React from "react";
 import doneIcon from "../icons/baseline-done-24px.svg";
 import warningIcon from "../icons/baseline-warning-24px.svg";
+import skippedIcon from "../icons/remove.svg";
 import { Context } from "./context";
 import Svg from "./svg";
 import { StepId } from "./typings";
@@ -21,6 +22,7 @@ const Header: React.FunctionComponent<Props> = ({ index, stepId }) => {
   const {
     loading,
     completed,
+    skipped,
     error,
     disabled,
     description,
@@ -30,7 +32,7 @@ const Header: React.FunctionComponent<Props> = ({ index, stepId }) => {
 
   const active = Boolean(current && current.stepId === stepId);
   const disabled$ =
-    disabled || isLoading() || !Boolean(active || completed || error);
+    disabled || skipped || isLoading() || !Boolean(active || completed || error);
 
   const onClick = () => goAt(stepId);
 
@@ -42,6 +44,7 @@ const Header: React.FunctionComponent<Props> = ({ index, stepId }) => {
       className={classnames(className, CLASS_NAME, {
         [`${CLASS_NAME}--loading`]: loading,
         [`${CLASS_NAME}--completed`]: completed,
+        [`${CLASS_NAME}--skipped`]: skipped,
         [`${CLASS_NAME}--error`]: error,
         [`${CLASS_NAME}--active`]: active,
         [`${CLASS_NAME}--disabled`]: disabled$
@@ -51,10 +54,13 @@ const Header: React.FunctionComponent<Props> = ({ index, stepId }) => {
         {error && (
           <Svg className={`${CLASS_NAME}__icon`} content={warningIcon} />
         )}
-        {!error && completed && (
+        {!error && completed && !skipped && (
           <Svg className={`${CLASS_NAME}__icon`} content={doneIcon} />
         )}
-        {!error && !completed && index}
+        {!error && skipped && (
+          <Svg className={`${CLASS_NAME}__icon`} content={skippedIcon} />
+        )}
+        {!error && !completed && !skipped && index}
       </span>
       <span className={`${CLASS_NAME}__title`}>
         {error ? error.msg : title}

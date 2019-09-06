@@ -1,13 +1,13 @@
-import * as React from "react";
-import useStateEffects from "react-state-effects";
-import * as Actions from "./actions";
-import StepError from "./error";
-import * as Selectors from "./selectors";
+import * as React from 'react';
+import useStateEffects from 'react-state-effects';
+import * as Actions from './actions';
+import StepError from './error';
+import * as Selectors from './selectors';
 
-import { StepId, StepState } from "./typings";
+import { StepId, StepState } from './typings';
 
 const contextFallback = () => {
-  throw new Error("createStep invoked outside of Stepper scope");
+  throw new Error('createStep invoked outside of Stepper scope');
 };
 
 export interface StepperController {
@@ -42,7 +42,7 @@ export type OnResolve = (stepId: StepId) => void;
 export type OnReject = (stepId: StepId) => void;
 
 interface Props {
-  children: (context: StepperController) => React.ReactNode;
+  children?: (context: StepperController) => React.ReactNode;
   contextRef?: React.MutableRefObject<StepperController>;
   onResolve?: OnResolve;
   onReject?: OnReject;
@@ -71,8 +71,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   const getIndex = (stepId: StepId) => state.stepIndex.indexOf(stepId);
   const getNextStepId = (stepId: StepId) => {
     const index = getIndex(stepId);
-    const nextIndex =
-      index + 1 < state.stepIndex.length ? index + 1 : index;
+    const nextIndex = index + 1 < state.stepIndex.length ? index + 1 : index;
 
     return state.stepIndex[nextIndex];
   };
@@ -82,8 +81,10 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
       const stepState = state$.steps[stepId] || config;
       const index = stepState.index || state$.stepIndex.length;
       const current = state$.current || stepId;
-      const completed = state$.stepIndex.indexOf(state$.current) < 0
-        && current !== stepId;
+      const completed =
+        state$.stepIndex.indexOf(state$.current) < 0 && ((current !== stepId) || (current === stepId && index === state$.stepIndex.length));
+      const skipped =
+        state$.stepIndex.indexOf(state$.current) < 0 && current !== stepId;
 
       return [
         {
@@ -92,20 +93,21 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
           stepIndex: [
             ...state$.stepIndex.slice(0, index),
             stepId,
-            ...state$.stepIndex.slice(index),
+            ...state$.stepIndex.slice(index)
           ],
           steps: {
             ...state$.steps,
             [stepId]: {
               completed,
+              skipped,
               index,
               loading: false,
               stepId,
-              ...stepState,
+              ...stepState
             }
           }
         }
-      ]
+      ];
     });
   };
 
@@ -113,7 +115,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     setState(state$ => [
       {
         ...state$,
-        stepIndex: state$.stepIndex.filter(stepId$ => stepId$ !== stepId),
+        stepIndex: state$.stepIndex.filter(stepId$ => stepId$ !== stepId)
       }
     ]);
   };
