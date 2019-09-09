@@ -24,7 +24,7 @@ const Step: React.FunctionComponent<Props> = ({ stepId, ...props }) => {
         ...props,
       loading: props.loading
     });
-  }, [props.loading]);
+  }, []);
 
   return null;
 };
