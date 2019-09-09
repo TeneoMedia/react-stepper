@@ -17,14 +17,14 @@ const Step: React.FunctionComponent<Props> = ({ stepId, ...props }) => {
     createStep(stepId, props);
 
     return () => removeStep(stepId);
-  }, []);
+  });
 
   React.useEffect(() => {
     updateStep(stepId, {
         ...props,
       loading: props.loading
     });
-  }, []);
+  });
 
   return null;
 };
