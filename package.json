@@ -1,6 +1,6 @@
 {
   "name": "@teneo/react-material-stepper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React stepper component",
   "main": "dist/react-stepper.js",
   "types": "lib/index.d.ts",
